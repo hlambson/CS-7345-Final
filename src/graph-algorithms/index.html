@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Electron App</title>
+    <link rel="stylesheet" type="text/css" href="./index.css">
+  </head>
+  <body>
+
+    <h4>Test to compare timing on running Breadth First Search, Depth First Search, and Kruskal's Minimum Spanning Tree algorithms in parallel using threads versus running sequentially</h4>
+    <p>Tested on a cycle graph with 30,000 vertices with BFS and DFS Root 1 and Target 15,000</p>
+    <script src="pkg/graph_algorithms.js"></script>
+    <script>
+      const { create_random_graph, create_cycle_graph, breadth_first_search, depth_first_search, depth_first_search_thread, kruskal, kruskal_thread, breadth_first_search_thread } = wasm_bindgen;
+
+      async function run() {
+        await wasm_bindgen('./pkg/graph_algorithms_bg.wasm');
+        let randomGraph = create_cycle_graph(30000); //create random graph with 100 vertices and up to 20 edges per vertex
+        var arrMulti = [];
+        var arrSingle = [];
+        for (let x = 0; x < 5; x++) {
+        var startTime = performance.now();
+        await Promise.all([breadth_first_search_thread(randomGraph, 1 ,15000), depth_first_search_thread(randomGraph, 1, 15000), kruskal_thread(randomGraph, 30000)]);
+        var endTime = performance.now();
+        var elapsed = endTime - startTime;
+        arrMulti.push(elapsed);
+
+        var startTime = performance.now();
+        let bfsVec = breadth_first_search(randomGraph, 1, 15000);
+        let dfsVec = depth_first_search(randomGraph, 1, 15000);
+        let kruskVec = kruskal(randomGraph,30000);
+        var endTime = performance.now();
+        var elapsed = endTime - startTime;
+        arrSingle.push(elapsed);
+        console.log(bfsVec);
+        console.log(dfsVec);
+        console.log(kruskVec);
+        
+        }
+        document.getElementById("multithread").innerHTML = "Time Taken Multithread: " + arrMulti.join("</br>");
+        document.getElementById("single").innerHTML = "Time Taken Sequentially: " + arrSingle.join("</br>");
+      } 
+
+      run();
+    </script>
+    <code id="multithread"></code>
+    <br>
+    <code id="single"></code>
+    <br>
+  </body>
+</html>
