@@ -9,7 +9,7 @@
 
     <h4>Test to compare timing on running Breadth First Search, Depth First Search, and Kruskal's Minimum Spanning Tree algorithms in parallel using threads versus running sequentially</h4>
     <p>Tested on a cycle graph with 30,000 vertices with BFS and DFS Root 1 and Target 15,000</p>
-    <script src="pkg/graph_algorithms.js"></script>
+    <script src="./pkg/graph_algorithms.js"></script>
     <script>
       const { create_random_graph, create_cycle_graph, breadth_first_search, depth_first_search, depth_first_search_thread, kruskal, kruskal_thread, breadth_first_search_thread } = wasm_bindgen;
 
