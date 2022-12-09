@@ -1,0 +1,14 @@
+{
+  "name": "graph-algorithms",
+  "collaborators": [
+    "Henry Lambson <hlambson@smu.edu>"
+  ],
+  "version": "0.1.0",
+  "files": [
+    "graph_algorithms_bg.wasm",
+    "graph_algorithms.js",
+    "graph_algorithms.d.ts"
+  ],
+  "browser": "graph_algorithms.js",
+  "types": "graph_algorithms.d.ts"
+}
